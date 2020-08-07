@@ -60,7 +60,7 @@ export default {
         return {
           duration: 4000, // 旋转时间
           circle: 8, // 旋转圈数
-          mode: 'ease-out'
+          mode: 'ease-out' // 过渡类型
         }
       }
     },
