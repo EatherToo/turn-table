@@ -1,30 +1,41 @@
 {
   "name": "lucky-turn-table",
   "version": "1.1.0",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "keywords": [
     "turn-table",
     "lucky-turn-table"
   ],
   "author": "Eather",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "babel src -d lib",
+    "lint": "eslint --fix src"
   },
   "dependencies": {
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
     "@vue/babel-preset-jsx": "^1.1.2",
-    "core-js": "^3.6.5",
+    "clean-webpack-plugin": "^3.0.0",
+    "babel-loader": "^8.1.0",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "babel-preset-latest": "^6.24.1",
+    "path": "^0.12.7",
+    "terser-webpack-plugin": "^3.0.8",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "core-js": "^2.6.5",
     "vue": "^2.6.11"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.4.0",
-    "@vue/cli-plugin-eslint": "~4.4.0",
-    "@vue/cli-service": "~4.4.0",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
     "babel-eslint": "^10.1.0",
+    "css-loader": "^4.2.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "file-loader": "^6.0.0",
+    "style-loader": "^1.2.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

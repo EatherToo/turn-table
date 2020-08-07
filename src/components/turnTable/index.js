@@ -1,3 +1,3 @@
-import turnTable from './turnTable.jsx'
+import turnTable from './turnTable'
 
 export default turnTable
