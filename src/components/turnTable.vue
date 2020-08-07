@@ -6,7 +6,7 @@
         <div class="turn-table-arrow" @click="beginRotate()"></div>
         <div class="turn-table-box-items" :style="rotateStyle">
           <div
-              v-for="(item,index) in prizeList" 
+              v-for="(item,index) in prizeList.concat(extendItem)" 
               :key="index" :style="{transform: `rotate(${index * angle}deg)`}" class="prize-list">
             <div
               class="prize-item"
@@ -18,7 +18,6 @@
               </div>
               <div class="prize-text">{{item.name}}</div>
               </div>
-              
             </div>
           </div>
         </div>
@@ -64,6 +63,10 @@ export default {
           mode: 'ease-out'
         }
       }
+    },
+    strict: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -72,7 +75,7 @@ export default {
       duration: 3000, // 转盘旋转时间
       rotateAngle: 0, // 旋转角度
       angleList: [], // 指针最终停留角度的列表
-      index: 0, // 抽中奖品的下标
+      prizeIndex: 0, // 抽中奖品的下标
       angle: 30, // 扇形弧度
       isRotating: false, // 是否正在旋转
       allFontSize: '300px', // 转盘大小
@@ -109,12 +112,21 @@ export default {
     this.initialize();
   },
   computed: {
+    // 旋转样式
     rotateStyle () {
       return `
         -webkit-transition: transform ${this.config.duration}ms ${this.config.mode};
         transition: transform ${this.config.duration}ms ${this.config.mode};
         -webkit-transform: rotate(${this.rotateAngle}deg);
             transform: rotate(${this.rotateAngle}deg);`
+    },
+    // 若奖品数量为单数
+    extendItem () {
+      if(this.prizeList.length % 2 === 0) {
+        return []
+      } else {
+        return [{icon: '', name: '谢谢惠顾!'}]
+      }
     }
   },
   watch: {
@@ -152,12 +164,20 @@ export default {
       // 指针最终停留角度的列表
       this.angleList = []
       // 奖项数量
-      const prizeNum = this.prizeList.length
+      const prizeNum = this.prizeList.length + (this.prizeList.length%2 === 0 ? 0 : 1)
       // 单个扇形的弧度
       this.angle = CIRCLE_ANGLE / prizeNum
-      // 计算最终停留角度列表,因为指针要停在扇形中间,所以要加上二分之一的扇形弧度
+
+      // 计算最终停留角度列表,因为指针要停在扇形中间,所以要加上指针偏移扇形弧度
       for(let i = 0; i < prizeNum; i++) {
-        this.angleList.push(i * this.angle + this.angle / 2)
+        // 指针偏移弧度
+        let offset
+        if (this.strict) {
+          offset = this.random(this.angle, 5)
+        } else {
+          offset = this.angle / 2
+        }
+        this.angleList.push(i * this.angle + offset)
       }
     },
     /**
@@ -170,9 +190,9 @@ export default {
       }
       // 获取奖品下标,getPrize函数由父组件传递进来,若未传递,则使用默认的算法
       if (this.getPrize() === false) {
-        this.index = this.random(this.prizeList.length - 1)
+        this.prizeIndex = this.random(this.prizeList.length - 1)
       } else {
-        this.index = this.getPrize();
+        this.prizeIndex = this.getPrize();
       }
       // 抽奖次数减一
       this.count_--
@@ -183,8 +203,6 @@ export default {
       return parseInt(Math.random() * (max - min + 1) + min)
     },
     rotating() {
-      const { config, index } = this
-
       // 将旋转状态置为true
       this.isRotating = true
     
@@ -195,17 +213,17 @@ export default {
       this.rotateAngle = 
         this.rotateAngle // 当前指针停留角度
         + this.config.circle * CIRCLE_ANGLE // 旋转圈数
-        + this.angleList[index] // 奖项停留角度
+        + this.angleList[this.prizeIndex] // 奖项停留角度
         - (this.rotateAngle % CIRCLE_ANGLE) // 回到初始位置
         // 旋转结束后，允许再次触发
         setTimeout(() => {
           this.rotateOver()
-        }, config.duration + 1000)
+        }, this.config.duration + 1000)
     },
     // 旋转结束
     rotateOver () {
       this.isRotating = false
-      this.$emit('rotate-over', this.index)
+      this.$emit('rotate-over', this.prizeIndex)
     },
   }
 };
