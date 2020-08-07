@@ -1,7 +1,12 @@
 {
   "name": "turn-table",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.1.0",
+  "main": "index.js",
+  "keywords": [
+    "turn-table",
+    "lucky-turn-table"
+  ],
+  "author": "Eather",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

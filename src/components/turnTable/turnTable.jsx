@@ -1,4 +1,4 @@
-import './style/turnTable.css'
+import '../style/turnTable.css'
 
 const CIRCLE_ANGLE = 360
 

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import turnTable from './components/turnTable.jsx'
+import turnTable from './components/turnTable/index'
 import { prizeList } from './components/config'
 export default {
   name: 'App',
