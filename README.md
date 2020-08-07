@@ -3,6 +3,8 @@
 ## 使用方法
 
 ```
+npm install lucky-turn-table
+
 import turnTable from 'turn-table'
 
 <turn-table :prize-list="prizeList"></turn-table>
