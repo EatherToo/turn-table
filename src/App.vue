@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <turn-table :prize-list="prizeList"></turn-table>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import turnTable from './components/turnTable'
+import { prizeList } from './components/config'
 export default {
   name: 'App',
+  data() {
+    return {
+      prizeList
+    }
+  },
   components: {
-    HelloWorld
+    turnTable
   }
 }
 </script>
