@@ -3,7 +3,7 @@
 ## 使用方法
 
 ```
-npm install lucky-turn-table
+npm install prize-turn-table
 
 import turnTable from 'turn-table'
 

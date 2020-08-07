@@ -1,5 +1,5 @@
 {
-  "name": "lucky-turn-table",
+  "name": "prize-turn-table",
   "version": "1.0.0",
   "main": "./lib/index.js",
   "keywords": [
