@@ -62,6 +62,11 @@ const turnTable = {
       type: String | Object,
       default: '',
     },
+    // 是否展示转盘中间的文字
+    ifCenterText: {
+      type: String,
+      default: true,
+    },
   },
   data() {
     return {
@@ -257,7 +262,15 @@ const turnTable = {
         <div style={this.bodyStyle} class="turn-table-body">
           <div class="turn-table-content">
             <div class="turn-table-box">
-              <div class="turn-table-arrow" onClick={this.beginRotate}></div>
+              <div class="turn-table-arrow" onClick={this.beginRotate}>
+                {this.ifCenterText ? (
+                  <label style={{ fontSize: '0.008em', color: '#F22E00' }}>
+                    {this.count_ + '次'}
+                  </label>
+                ) : (
+                  ''
+                )}
+              </div>
               <div class="turn-table-box-items" style={this.rotateStyle}>
                 {this.prizeList.concat(this.extendItem).map((item, index) => {
                   return (
