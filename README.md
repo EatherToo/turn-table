@@ -13,6 +13,8 @@ import turnTable from 'prize-turn-table'
 
 ```
 
+##### [demo 地址](https://eathertoo.github.io/turn-table/)
+
 ### 组件属性说明
 
 - `size:Number | String` 转盘大小
