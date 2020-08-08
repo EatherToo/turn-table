@@ -42,9 +42,25 @@ const turnTable = {
       type: Boolean,
       default: true,
     },
-    backImg: {
+    // 是否添加抽奖背景图片
+    ifBackImg: {
       type: Boolean,
       default: true,
+    },
+    // 抽奖间隔背景颜色选项
+    colors: {
+      type: Array,
+      default: () => ['#FFFFFF', '#F96C1C'],
+    },
+    // 抽奖间隔文字颜色选项
+    textColors: {
+      type: Array,
+      default: () => ['#F96C1C', '#FFFFFF'],
+    },
+    // 默认背景图片
+    backImg: {
+      type: String | Object,
+      default: '',
     },
   },
   data() {
@@ -137,6 +153,9 @@ const turnTable = {
         this.allFontSize = this.size
       }
     },
+    ifBackImg() {
+      this.hasBackgroung()
+    },
   },
   methods: {
     /**
@@ -208,9 +227,17 @@ const turnTable = {
       this.isRotating = false
       this.$emit('rotate-over', this.prizeIndex)
     },
+    // 是否展示北京图片
     hasBackgroung() {
-      if (this.backImg) {
-        this.bgStyle = { fontSize: this.allFontSize }
+      if (this.ifBackImg) {
+        // 若展示背景图片,整个转盘大小保持不变,可转动部分按比例缩小
+        this.bgStyle = {
+          fontSize: this.allFontSize,
+        }
+        // 若传递了背景图片进来
+        if (this.backImg && this.backImg !== '') {
+          this.bgStyle.backgroundImage = `url(${this.backImg})`
+        }
         this.bodyStyle = {
           fontSize: '0.75em',
           textAlign: 'center',
@@ -226,7 +253,7 @@ const turnTable = {
   },
   render() {
     return (
-      <div class={this.backImg ? 'turn-table-bg' : ''} style={this.bgStyle}>
+      <div class={this.ifBackImg ? 'turn-table-bg' : ''} style={this.bgStyle}>
         <div style={this.bodyStyle} class="turn-table-body">
           <div class="turn-table-content">
             <div class="turn-table-box">
@@ -243,8 +270,11 @@ const turnTable = {
                         class="prize-item"
                         style={{
                           backgroundColor:
-                            index % 2 === 0 ? '#ffffff' : '#F96C1C',
-                          color: index % 2 === 0 ? '#F96C1C' : '#ffffff',
+                            index % 2 === 0 ? this.colors[0] : this.colors[1],
+                          color:
+                            index % 2 === 0
+                              ? this.textColors[0]
+                              : this.textColors[1],
                           transform: `rotate(${this.angle}deg)`,
                         }}
                       >
