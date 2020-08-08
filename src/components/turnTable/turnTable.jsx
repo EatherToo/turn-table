@@ -42,6 +42,10 @@ const turnTable = {
       type: Boolean,
       default: true,
     },
+    backImg: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -54,6 +58,8 @@ const turnTable = {
       isRotating: false, // 是否正在旋转
       allFontSize: '300px', // 转盘大小
       config: {}, // 转盘旋转参数
+      bgStyle: {},
+      bodyStyle: {},
     }
   },
   mounted() {
@@ -63,6 +69,7 @@ const turnTable = {
     } else {
       this.allFontSize = this.size
     }
+    this.hasBackgroung()
     // 初始化
     this.count_ = this.count
     this.angleList = []
@@ -201,47 +208,60 @@ const turnTable = {
       this.isRotating = false
       this.$emit('rotate-over', this.prizeIndex)
     },
+    hasBackgroung() {
+      if (this.backImg) {
+        this.bgStyle = { fontSize: this.allFontSize }
+        this.bodyStyle = {
+          fontSize: '0.75em',
+          textAlign: 'center',
+        }
+      } else {
+        this.bgStyle = {}
+        this.bodyStyle = {
+          fontSize: this.allFontSize,
+          textAlign: 'center',
+        }
+      }
+    },
   },
   render() {
     return (
-      <div
-        style={{ fontSize: this.allFontSize, textAlign: 'center' }}
-        class="turn-table-body"
-      >
-        <div style={{ fontSize: '15px' }}>{this.count_}</div>
-        <div class="turn-table-content">
-          <div class="turn-table-box">
-            <div class="turn-table-arrow" onClick={this.beginRotate}></div>
-            <div class="turn-table-box-items" style={this.rotateStyle}>
-              {this.prizeList.concat(this.extendItem).map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    style={{ transform: `rotate(${index * this.angle}deg)` }}
-                    class="prize-list"
-                  >
+      <div class={this.backImg ? 'turn-table-bg' : ''} style={this.bgStyle}>
+        <div style={this.bodyStyle} class="turn-table-body">
+          <div class="turn-table-content">
+            <div class="turn-table-box">
+              <div class="turn-table-arrow" onClick={this.beginRotate}></div>
+              <div class="turn-table-box-items" style={this.rotateStyle}>
+                {this.prizeList.concat(this.extendItem).map((item, index) => {
+                  return (
                     <div
-                      class="prize-item"
-                      style={{
-                        backgroundColor:
-                          index % 2 === 0 ? '#ffffff' : '#F96C1C',
-                        color: index % 2 === 0 ? '#F96C1C' : '#ffffff',
-                        transform: `rotate(${this.angle}deg)`,
-                      }}
+                      key={index}
+                      style={{ transform: `rotate(${index * this.angle}deg)` }}
+                      class="prize-list"
                     >
                       <div
-                        style={{ transform: `rotate(-${this.angle / 2}deg)` }}
-                        class="prize-info-item"
+                        class="prize-item"
+                        style={{
+                          backgroundColor:
+                            index % 2 === 0 ? '#ffffff' : '#F96C1C',
+                          color: index % 2 === 0 ? '#F96C1C' : '#ffffff',
+                          transform: `rotate(${this.angle}deg)`,
+                        }}
                       >
-                        <div class="prize-pic">
-                          {item.icon ? <img src={item.icon} /> : ''}
+                        <div
+                          style={{ transform: `rotate(-${this.angle / 2}deg)` }}
+                          class="prize-info-item"
+                        >
+                          <div class="prize-pic">
+                            {item.icon ? <img src={item.icon} /> : ''}
+                          </div>
+                          <div class="prize-text">{item.name}</div>
                         </div>
-                        <div class="prize-text">{item.name}</div>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>

@@ -1,14 +1,17 @@
+.turn-table-bg {
+  width: 1em;
+  background: url(../../assets/img/turn-table-circle.png) no-repeat;
+  background-size: 100% 100%;
+  height: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .turn-table-body {
-  width: fit-content;
   width: 1em;
   height: 1em;
   margin: auto;
-}
-
-.turn-table-content {
-  width: 100%;
-  background-size: 100%;
-  background-color: rgb(250, 226, 194);
 }
 
 .turn-table-box {
@@ -16,6 +19,8 @@
   position: relative;
   width: 1em;
   height: 1em;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .turn-table-box-items {
