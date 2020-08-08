@@ -13,7 +13,9 @@ import turnTable from 'prize-turn-table'
 
 ```
 
-##### [demo 地址](https://eathertoo.github.io/turn-table/)
+#### [demo 地址](https://eathertoo.github.io/turn-table/)
+
+![demo.gif](https://raw.githubusercontent.com/EatherToo/turn-table/pages/asserts/demo.gif)
 
 ### 组件属性说明
 
@@ -22,6 +24,7 @@ import turnTable from 'prize-turn-table'
   此属性类型为字符串时,此字符串必须是 px,rem 结尾的字符串  
   此属性类型为数字时单位默认为 px;
 - `prizeList: Array` 奖品列表  
+  说明: 当奖品个数为单数时会自动补一个 **谢谢惠顾** 选项
   格式为:
   ```
   {
@@ -47,3 +50,29 @@ import turnTable from 'prize-turn-table'
 - `strict: Boolean` 严格模式  
   此属性为 true 时,指针停止在扇形的随机位置  
   此属性为 false 时,指针停留在扇形的中间
+
+- `ifBackImg: Boolean` 是否加上背景图片
+  此属性为 true 时,有转盘背景图片  
+  此属性为 false 时,无转盘背景图片
+
+- `colors: Array` 抽奖扇形间隔背景颜色选项
+  示例：
+  ```
+  [
+    '#FFFFFF',
+    '#F96C1C'
+  ]
+  ```
+- `textColors: Array` 抽奖扇形间隔文字颜色选项
+  示例：
+
+  ```
+  [
+    '#F96C1C',
+    '#FFFFFF'
+  ]
+  ```
+
+- `backImg:String`　背景图片
+  说明：仅当`ifBackImg`值为`true`时生效，若未指定值则取用默认值
+- `ifCenterText:Boolean` 是否展示转盘中间文字
