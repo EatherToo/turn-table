@@ -64,7 +64,7 @@ const turnTable = {
     },
     // 是否展示转盘中间的文字
     ifCenterText: {
-      type: String,
+      type: Boolean,
       default: true,
     },
   },

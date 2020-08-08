@@ -44,7 +44,7 @@
   z-index: 2;
   width: 0.2833333em;
   height: 0.2833333em;
-  background: url("../../assets/img/arrow-btn.png") no-repeat;
+  background: url('../../assets/img/arrow-btn.png') no-repeat;
   background-size: 100% 100%;
   transform: translate3d(-50%, -50%, 0);
 }
@@ -64,6 +64,7 @@
   font-size: 0.1em;
   clip: rect(0 5em 10em 0);
   border-radius: 50%;
+  box-shadow: inset 1px 1px 5px #000000;
 }
 
 .prize-info-item {
