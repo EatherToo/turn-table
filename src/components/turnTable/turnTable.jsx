@@ -67,6 +67,16 @@ const turnTable = {
       type: Boolean,
       default: true,
     },
+    // 转盘指针尺寸
+    arrowSize: {
+      type: String,
+      default: '0.4em'
+    },
+    // 转盘指针背景图
+    arrowImg: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -81,6 +91,7 @@ const turnTable = {
       config: {}, // 转盘旋转参数
       bgStyle: {},
       bodyStyle: {},
+      arrowImgStyle: {}
     }
   },
   mounted() {
@@ -109,6 +120,10 @@ const turnTable = {
     if (!this.config.mode) {
       this.config.duration = 4000
       this.config = { ...this.config }
+    }
+    // 若传入了指针背景图片
+    if (this.arrowImg!=='') {
+      this.arrowImgStyle={backgroundImage: `url(${this.arrowImg})`}
     }
     // 初始化抽奖转盘
     this.initialize()
@@ -212,7 +227,8 @@ const turnTable = {
     rotating() {
       // 将旋转状态置为true
       this.isRotating = true
-
+      // 抛出转盘开始转动事件
+      this.$emit('rotate-start')
       /**
        * 计算旋转角度
        * 计算规则为: 当前指针停留角度 加 旋转圈数 加 奖项停留角度 还要减去多出来的角度
@@ -262,13 +278,24 @@ const turnTable = {
         <div style={this.bodyStyle} class="turn-table-body">
           <div class="turn-table-content">
             <div class="turn-table-box">
-              <div class="turn-table-arrow" onClick={this.beginRotate}>
-                {this.ifCenterText ? (
-                  <label style={{ fontSize: '0.008em', color: '#F22E00' }}>
-                    {this.count_ + '次'}
-                  </label>
+              <div class="turn-table-arrow" 
+                   style={
+                          {
+                            width: this.arrowSize, 
+                            height: this.arrowSize,
+                            cursor: 'pointer',
+                            ...this.arrowImgStyle
+                          }} 
+                   onClick={this.beginRotate}>
+                {this.$slots.centerText ? (
+                  <div style={{ fontSize: '0.008em', color: '#F22E00' }}>
+                    {this.$slots.centerText}
+                  </div>
                 ) : (
-                  ''
+                  this.ifCenterText ? (
+                    <span style={{ fontSize: '0.008em', color: '#F22E00' }}>
+                    {this.count_ + '次'} </span>
+                  ) : ''
                 )}
               </div>
               <div class="turn-table-box-items" style={this.rotateStyle}>

@@ -17,6 +17,19 @@ import turnTable from 'prize-turn-table'
 
 ![demo.gif](https://raw.githubusercontent.com/EatherToo/turn-table/pages/asserts/demo.gif)
 
+### 组件抛出事件说明
+- 当转盘停止转动时,组件抛出一个 `@rotate-over` 事件,同时带出一个整型值,该值为中奖奖项在prizeList中的下标
+- 转盘开始转动之前,组件抛出一个 `@rotate-start` 事件
+
+### 组件slot说明
+- 组件有一个slot, `centerText` 显示在指针图标的中间,用法如下:  
+  
+  ```
+  <turnTable>
+      <span slot="centerText">100次</span>
+    </turnTable>
+  ```
+
 ### 组件属性说明
 
 - `size:Number | String` 转盘大小
@@ -38,6 +51,7 @@ import turnTable from 'prize-turn-table'
   ```
 - `getPrize: Function` 抽奖函数  
   获取抽奖结果的函数,由父组件传递,默认取随机数
+  此函数必须有一个整型返回值,**<font color="red">该返回值表示prizeList中中奖奖项的下标</font>**
 - `count: Number` 抽奖次数
 - `spinConfig: Object` 装盘旋转参数,有三个属性
   ```
@@ -75,4 +89,10 @@ import turnTable from 'prize-turn-table'
 
 - `backImg:String`　背景图片
   说明：仅当`ifBackImg`值为`true`时生效，若未指定值则取用默认值
-- `ifCenterText:Boolean` 是否展示转盘中间文字
+- `ifCenterText:Boolean` 是否展示转盘中间文字  
+  当slot centerText存在时此属性<font color="red">失效</font>  
+
+- `arrowSize:String` 转盘指针大小
+  指定转盘中间指针图标的尺寸
+- `arrowImg: String` 转盘指针图片
+  指定转盘中间指针图片
