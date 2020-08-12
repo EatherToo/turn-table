@@ -213,14 +213,20 @@ const turnTable = {
       if (this.count_ === 0 || this.isRotating) {
         return
       }
-      this.rotateAngle = this.rotateAngle + 12 * CIRCLE_ANGLE
       // 抽奖次数减一
       this.count_--
+            // 抛出转盘开始转动事件
+      this.$emit('rotate-start')
+      // 将旋转状态置为true
+      this.isRotating = true
+      this.rotateAngle = this.rotateAngle + 12 * CIRCLE_ANGLE
       // 抽奖结果
       const prizeResult = await this.getPrize()
 
       // 抽奖失败
       if (prizeResult === -1) {
+        // 抽奖失败,抽奖次数加回来
+        this.count_--
         this.rotateOver()
         return
       }
@@ -238,10 +244,6 @@ const turnTable = {
       return parseInt(Math.random() * (max - min + 1) + min)
     },
     rotating() {
-      // 将旋转状态置为true
-      this.isRotating = true
-      // 抛出转盘开始转动事件
-      this.$emit('rotate-start')
       /**
        * 计算旋转角度
        * 计算规则为: 当前指针停留角度 加 旋转圈数 加 奖项停留角度 还要减去多出来的角度
