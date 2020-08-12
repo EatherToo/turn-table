@@ -19,7 +19,7 @@ const turnTable = {
     // 获取抽奖结果函数
     getPrize: {
       type: Function,
-      default: () => {
+      default: async () => {
         return false
       },
     },
@@ -208,13 +208,13 @@ const turnTable = {
     /**
      * 转盘开始旋转
      */
-    beginRotate() {
+    async beginRotate() {
       // 抽奖次数为0或正在旋转时
       if (this.count_ === 0 || this.isRotating) {
         return
       }
       // 抽奖结果
-      const prizeResult = this.getPrize()
+      const prizeResult = await this.getPrize()
       // 获取奖品下标,getPrize函数由父组件传递进来,若未传递,则使用默认的算法
       if (prizeResult === false) {
         this.prizeIndex = this.random(this.prizeList.length - 1)
@@ -245,7 +245,6 @@ const turnTable = {
         this.config.circle * CIRCLE_ANGLE + // 旋转圈数
         this.angleList[stopIndex] - // 奖项停留角度
         (this.rotateAngle % CIRCLE_ANGLE) // 回到初始位置
-      console.log(this.rotateAngle)
       // 旋转结束后，允许再次触发
       setTimeout(() => {
         this.rotateOver()
