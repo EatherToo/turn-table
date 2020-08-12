@@ -213,16 +213,24 @@ const turnTable = {
       if (this.count_ === 0 || this.isRotating) {
         return
       }
+      this.rotateAngle = this.rotateAngle + 12 * CIRCLE_ANGLE
+      // 抽奖次数减一
+      this.count_--
       // 抽奖结果
       const prizeResult = await this.getPrize()
+
+      // 抽奖失败
+      if (prizeResult === -1) {
+        this.rotateOver()
+        return
+      }
+
       // 获取奖品下标,getPrize函数由父组件传递进来,若未传递,则使用默认的算法
       if (prizeResult === false) {
         this.prizeIndex = this.random(this.prizeList.length - 1)
       } else {
         this.prizeIndex = prizeResult
       }
-      // 抽奖次数减一
-      this.count_--
       // 调用旋转函数
       this.rotating()
     },
