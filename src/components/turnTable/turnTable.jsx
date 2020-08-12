@@ -213,11 +213,13 @@ const turnTable = {
       if (this.count_ === 0 || this.isRotating) {
         return
       }
+      // 抽奖结果
+      const prizeResult = this.getPrize()
       // 获取奖品下标,getPrize函数由父组件传递进来,若未传递,则使用默认的算法
-      if (this.getPrize() === false) {
+      if (prizeResult === false) {
         this.prizeIndex = this.random(this.prizeList.length - 1)
       } else {
-        this.prizeIndex = this.getPrize()
+        this.prizeIndex = prizeResult
       }
       // 抽奖次数减一
       this.count_--
