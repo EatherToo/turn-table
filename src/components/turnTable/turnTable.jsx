@@ -198,7 +198,7 @@ const turnTable = {
         // 指针偏移弧度
         let offset
         if (this.strict) {
-          offset = this.random(this.angle, 5)
+          offset = this.random(this.angle - 5, 5)
         } else {
           offset = this.angle / 2
         }
@@ -236,11 +236,14 @@ const turnTable = {
        * 计算旋转角度
        * 计算规则为: 当前指针停留角度 加 旋转圈数 加 奖项停留角度 还要减去多出来的角度
        */
+      // // 由于是转盘动不是指针动,所以要倒序
+      const stopIndex = this.angleList.length - this.prizeIndex - 1
       this.rotateAngle =
         this.rotateAngle + // 当前指针停留角度
         this.config.circle * CIRCLE_ANGLE + // 旋转圈数
-        this.angleList[this.angleList.length - this.prizeIndex] - // 奖项停留角度
+        this.angleList[stopIndex] - // 奖项停留角度
         (this.rotateAngle % CIRCLE_ANGLE) // 回到初始位置
+      console.log(this.rotateAngle)
       // 旋转结束后，允许再次触发
       setTimeout(() => {
         this.rotateOver()
@@ -308,7 +311,9 @@ const turnTable = {
                   return (
                     <div
                       key={index}
-                      style={{ transform: `rotate(${index * this.angle}deg)` }}
+                      style={{
+                        transform: `rotate(${index * this.angle}deg)`,
+                      }}
                       class="prize-list"
                     >
                       <div
