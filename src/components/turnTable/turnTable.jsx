@@ -70,13 +70,13 @@ const turnTable = {
     // 转盘指针尺寸
     arrowSize: {
       type: String,
-      default: '0.4em'
+      default: '0.4em',
     },
     // 转盘指针背景图
     arrowImg: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
@@ -91,7 +91,7 @@ const turnTable = {
       config: {}, // 转盘旋转参数
       bgStyle: {},
       bodyStyle: {},
-      arrowImgStyle: {}
+      arrowImgStyle: {},
     }
   },
   mounted() {
@@ -122,8 +122,8 @@ const turnTable = {
       this.config = { ...this.config }
     }
     // 若传入了指针背景图片
-    if (this.arrowImg!=='') {
-      this.arrowImgStyle={backgroundImage: `url(${this.arrowImg})`}
+    if (this.arrowImg !== '') {
+      this.arrowImgStyle = { backgroundImage: `url(${this.arrowImg})` }
     }
     // 初始化抽奖转盘
     this.initialize()
@@ -178,7 +178,7 @@ const turnTable = {
     },
     prizeList() {
       this.initialize()
-    }
+    },
   },
   methods: {
     /**
@@ -239,7 +239,7 @@ const turnTable = {
       this.rotateAngle =
         this.rotateAngle + // 当前指针停留角度
         this.config.circle * CIRCLE_ANGLE + // 旋转圈数
-        this.angleList[this.prizeIndex] - // 奖项停留角度
+        this.angleList[this.angleList.length - this.prizeIndex] - // 奖项停留角度
         (this.rotateAngle % CIRCLE_ANGLE) // 回到初始位置
       // 旋转结束后，允许再次触发
       setTimeout(() => {
@@ -281,24 +281,26 @@ const turnTable = {
         <div style={this.bodyStyle} class="turn-table-body">
           <div class="turn-table-content">
             <div class="turn-table-box">
-              <div class="turn-table-arrow" 
-                   style={
-                          {
-                            width: this.arrowSize, 
-                            height: this.arrowSize,
-                            cursor: 'pointer',
-                            ...this.arrowImgStyle
-                          }} 
-                   onClick={this.beginRotate}>
+              <div
+                class="turn-table-arrow"
+                style={{
+                  width: this.arrowSize,
+                  height: this.arrowSize,
+                  cursor: 'pointer',
+                  ...this.arrowImgStyle,
+                }}
+                onClick={this.beginRotate}
+              >
                 {this.$slots.centerText ? (
                   <div style={{ fontSize: '0.008em', color: '#F22E00' }}>
                     {this.$slots.centerText}
                   </div>
+                ) : this.ifCenterText ? (
+                  <span style={{ fontSize: '0.008em', color: '#F22E00' }}>
+                    {this.count_ + '次'}{' '}
+                  </span>
                 ) : (
-                  this.ifCenterText ? (
-                    <span style={{ fontSize: '0.008em', color: '#F22E00' }}>
-                    {this.count_ + '次'} </span>
-                  ) : ''
+                  ''
                 )}
               </div>
               <div class="turn-table-box-items" style={this.rotateStyle}>
