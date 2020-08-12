@@ -176,6 +176,9 @@ const turnTable = {
     ifBackImg() {
       this.hasBackgroung()
     },
+    prizeList() {
+      this.initialize()
+    }
   },
   methods: {
     /**
