@@ -56,6 +56,29 @@ import turnTable from 'prize-turn-table'
 - `getPrize: Function` 抽奖函数  
   获取抽奖结果的函数,由父组件传递,默认取随机数
   此函数必须有一个整型返回值,**<font color="red">该返回值表示 prizeList 中中奖奖项的下标</font>**
+  此函数也可以返回包含中奖奖项下标的`Promise`
+  若抽奖失败,函数返回值需为`-1`
+  示例:
+  ```
+  // 获取抽奖结果函数
+    async getPrizeFunc () {
+      return new Promise((resolve, reject) => {
+        this._getPrize().then(data => {
+          for (let i = 0; i < this.gameInfo.prizeMap.length; i++) {
+            if (this.gameInfo.prizeMap[i].id === data.prizeId) {
+              resolve(i)
+            }
+          }
+          // 抽奖结果不在奖品列表中
+          resolve(-1)
+        }).catch(e => {
+          // 抽奖失败返回-1给转盘组件
+          resolve(-1)
+          this.$refs.gameBasic.showPrizeText('提示', e.msg || e.message)
+        })
+      })
+    }
+  ```
 - `count: Number` 抽奖次数
 - `spinConfig: Object` 装盘旋转参数,有三个属性
   ```
