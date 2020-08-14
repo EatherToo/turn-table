@@ -225,6 +225,8 @@ const turnTable = {
 
       // 抽奖失败
       if (prizeResult === -1) {
+
+        this.prizeIndex = -1
         // 抽奖失败,抽奖次数加回来
         this.count_--
         this.rotateOver()
