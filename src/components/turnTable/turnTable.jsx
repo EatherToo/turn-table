@@ -92,7 +92,7 @@ const turnTable = {
       bgStyle: {},
       bodyStyle: {},
       arrowImgStyle: {},
-      linerTransition: false // 是否开启匀速转动动画
+      linerTransition: false, // 是否开启匀速转动动画
     }
   },
   mounted() {
@@ -133,8 +133,12 @@ const turnTable = {
     // 旋转样式
     rotateStyle() {
       return {
-        '-webkit-transition': `transform ${this.config.duration}ms ${this.linerTransition ? 'linear' : this.config.mode}`,
-        transition: `transform ${this.config.duration}ms ${this.linerTransition ? 'linear' : this.config.mode}`,
+        '-webkit-transition': `transform ${this.config.duration}ms ${
+          this.linerTransition ? 'linear' : this.config.mode
+        }`,
+        transition: `transform ${this.config.duration}ms ${
+          this.linerTransition ? 'linear' : this.config.mode
+        }`,
         '-webkit-transform': `rotate(${this.rotateAngle}deg)`,
         transform: `rotate(${this.rotateAngle}deg)`,
       }
@@ -216,20 +220,20 @@ const turnTable = {
       }
       // 抽奖次数减一
       this.count_--
-            // 抛出转盘开始转动事件
+      // 抛出转盘开始转动事件
       this.$emit('rotate-start')
       // 将旋转状态置为true
       this.isRotating = true
       // 开启匀速转动动画
       this.linerTransition = true
-      this.rotateAngle = this.rotateAngle + this.config.circle * 3 * CIRCLE_ANGLE
+      this.rotateAngle =
+        this.rotateAngle + this.config.circle * 3 * CIRCLE_ANGLE
       // 抽奖结果
       const prizeResult = await this.getPrize()
       // 关闭匀速转动动画
       this.linerTransition = false
       // 抽奖失败
       if (prizeResult === -1) {
-
         this.prizeIndex = -1
         // 抽奖失败,抽奖次数加回来
         this.count_++
@@ -264,7 +268,7 @@ const turnTable = {
       // 旋转结束后，允许再次触发
       setTimeout(() => {
         this.rotateOver()
-      }, this.config.duration + 1000)
+      }, this.config.duration)
     },
     // 旋转结束
     rotateOver() {
@@ -294,9 +298,9 @@ const turnTable = {
         }
       }
     },
-    continueRotate () {
+    continueRotate() {
       this.rotateAngle = this.rotateAngle + this.config.circle * CIRCLE_ANGLE
-    }
+    },
   },
   render() {
     return (
