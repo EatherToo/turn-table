@@ -123,3 +123,10 @@ import turnTable from 'prize-turn-table'
   指定转盘中间指针图标的尺寸
 - `arrowImg: String` 转盘指针图片
   指定转盘中间指针图片
+
+- `continueRotate()` 继续旋转函数
+  调用此函数转盘会继续旋转 `spinConfig.duration` 毫秒
+  调用方式：
+  ```
+    this.$refs.turnTable.continueRotate()
+  ```

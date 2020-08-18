@@ -92,6 +92,7 @@ const turnTable = {
       bgStyle: {},
       bodyStyle: {},
       arrowImgStyle: {},
+      linerTransition: false // 是否开启匀速转动动画
     }
   },
   mounted() {
@@ -132,8 +133,8 @@ const turnTable = {
     // 旋转样式
     rotateStyle() {
       return {
-        '-webkit-transition': `transform ${this.config.duration}ms ${this.config.mode}`,
-        transition: `transform ${this.config.duration}ms ${this.config.mode}`,
+        '-webkit-transition': `transform ${this.config.duration}ms ${this.linerTransition ? 'linear' : this.config.mode}`,
+        transition: `transform ${this.config.duration}ms ${this.linerTransition ? 'linear' : this.config.mode}`,
         '-webkit-transform': `rotate(${this.rotateAngle}deg)`,
         transform: `rotate(${this.rotateAngle}deg)`,
       }
@@ -219,16 +220,19 @@ const turnTable = {
       this.$emit('rotate-start')
       // 将旋转状态置为true
       this.isRotating = true
-      this.rotateAngle = this.rotateAngle + 12 * CIRCLE_ANGLE
+      // 开启匀速转动动画
+      this.linerTransition = true
+      this.rotateAngle = this.rotateAngle + this.config.circle * 3 * CIRCLE_ANGLE
       // 抽奖结果
       const prizeResult = await this.getPrize()
-
+      // 关闭匀速转动动画
+      this.linerTransition = false
       // 抽奖失败
       if (prizeResult === -1) {
 
         this.prizeIndex = -1
         // 抽奖失败,抽奖次数加回来
-        this.count_--
+        this.count_++
         this.rotateOver()
         return
       }
@@ -290,6 +294,9 @@ const turnTable = {
         }
       }
     },
+    continueRotate () {
+      this.rotateAngle = this.rotateAngle + this.config.circle * CIRCLE_ANGLE
+    }
   },
   render() {
     return (
